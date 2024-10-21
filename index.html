@@ -9,32 +9,116 @@
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar -->
         <div class="sidebar">
-            <div class="file-info">
-                <button class="import-btn">Import File</button>
-                <p class="file-name">test.json</p>
-                <p class="file-details">data file: bla blabl<br>size: 999kb<br>data lainnya: ???</p>
+            <!-- Title -->
+            <div class="chats">
+                <h2>Chats</h2>
             </div>
-            <button class="clear-btn">Clear File</button>
-            <div class="logo">
-                <p>PWEB<br>Q1<br>WA Logger</p>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search">
+            </div>
+
+            <!-- Chat List -->
+            <div class="chat-list">
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Grooup 3</p>
+                        <span>You: eh iya ya, sekarang lagi mikirin css sama htmlnya dulu :nangis:</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Orang 1</p>
+                        <span>Besok</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Group 2</p>
+                        <span>D: Kaya gini kayanya baguss</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Group 1</p>
+                        <span>A: Okee</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Orang 2</p>
+                        <span>Iyaa</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Orang 3</p>
+                        <span>Betull</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Orang 4</p>
+                        <span>Makasihh ya</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Orang 5</p>
+                        <span>Eh tapi...</span>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <img src="https://via.placeholder.com/30" alt="Chat Avatar">
+                    <div class="chat-details">
+                        <p>Group 4</p>
+                        <span>You: Okee siapp</span>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Chat Window -->
         <div class="chat-window">
-            <div class="message nama-orang">
-                <p>halo...</p>
+            <!-- Nama kontak atau grup di bagian atas -->
+            <div class="chat-header">
+                <p>Nama Kontak/Grup</p>
             </div>
-            <div class="message nama-orang">
-                <p>ini wa logger ya...?</p>
+
+            <!-- Isi chat -->
+            <div class="chat-content">
+                <div class="message chat-orang">
+                    <p>halo...</p>
+                </div>
+                <div class="message chat-orang">
+                    <p>ini wa logger ya...?</p>
+                </div>
+                <div class="message chat-orang">
+                    <p>kalo dua message gimana ya...?</p>
+                </div>
+                <div class="message chat-self">
+                    <p>haii...</p>
+                </div>
+                <div class="message chat-self">
+                    <p>eh iya ya, sekarang lagi mikirin css sama htmlnya dulu :nangis:</p>
+                </div>
             </div>
-            <div class="message nama-orang">
-                <p>kalo dua message gimana ya...?</p>
-            </div>
-            <div class="message nama-orang-2">
-                <p>haii...</p>
-            </div>
-            <div class="message nama-orang-2">
-                <p>eh iya ya, sekarang lagi mikirin css sama htmlnya dulu :nangis:</p>
+
+            <!-- Bagian untuk input pesan -->
+            <div class="chat-footer">
+                <input type="text" placeholder="Type a message" />
+                <button>Send</button>
             </div>
         </div>
     </div>
