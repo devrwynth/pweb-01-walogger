@@ -1,1 +1,80 @@
 /* isi ini dengan css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2e3b29;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 25%;
+    background-color: #394634;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.file-info {
+    color: #ccc;
+}
+
+.import-btn, .clear-btn {
+    background-color: #4d5b48;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.clear-btn {
+    background-color: #636f5d;
+}
+
+.logo {
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.chat-window {
+    width: 75%;
+    padding: 20px;
+    background-color: #1d241c;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.message {
+    max-width: 60%;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.nama-orang {
+    background-color: #606560;
+    color: #ddd;
+    align-self: flex-start;
+}
+
+.nama-orang-2 {
+    background-color: #43803d;
+    color: #fff;
+    align-self: flex-end;
+}
+
