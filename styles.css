@@ -11,51 +11,95 @@ body {
     color: #fff;
 }
 
+/* Container utama membagi layout menjadi 2 bagian */
 .container {
     display: flex;
     height: 100vh;
 }
 
+/* Sidebar */
 .sidebar {
     width: 25%;
     background-color: #394634;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: left;
 }
 
-.file-info {
-    color: #ccc;
-}
-
-.import-btn, .clear-btn {
-    background-color: #4d5b48;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+/* Search Bar */
+.search-bar {
+    width: 100%;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.clear-btn {
-    background-color: #636f5d;
-}
-
-.logo {
-    text-align: center;
-    font-size: 24px;
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #606560;
     color: #fff;
-    margin-top: 20px;
 }
 
+/* Chat List */
+.chat-list {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #505d4e;
+    border-radius: 5px;
+}
+
+.chat-item img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-details p {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.chat-details span {
+    color: #ddd;
+}
+
+/* Chat Window */
 .chat-window {
     width: 75%;
-    padding: 20px;
     background-color: #1d241c;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    position: relative;
+}
+
+/* Chat Header */
+.chat-header {
+    background-color: #606560;
+    color: white;
+    text-align: cleft;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Chat Content */
+.chat-content {
+    flex-grow: 1;  /* Biarkan ini untuk membuat chat content mengisi ruang vertikal */
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Atur balon chat secara vertikal */
 }
 
 .message {
@@ -64,17 +108,48 @@ body {
     padding: 10px 15px;
     border-radius: 5px;
     font-size: 16px;
+    word-wrap: break-word;
+    display: block;
 }
 
-.nama-orang {
+/* Warna balon chat pengirim (kiri) */
+.chat-orang {
     background-color: #606560;
     color: #ddd;
     align-self: flex-start;
+    margin-right: auto; /* Agar pesan tidak melebar ke kanan */
 }
 
-.nama-orang-2 {
+/* Warna balon chat penerima (kanan) */
+.chat-self {
     background-color: #43803d;
     color: #fff;
     align-self: flex-end;
+    margin-left: auto; /* Agar pesan tidak melebar ke kiri */
+    text-align: right;
 }
 
+/* Footer untuk input pesan */
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    background-color: #606560;
+}
+
+.chat-footer input {
+    flex-grow: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #394634;
+}
+
+.chat-footer button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #075e54;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
