@@ -27,6 +27,48 @@ body {
     align-items: left;
 }
 
+.sidebar-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.imports button {
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #505d4e;
+    border: solid 0px;
+    padding: 8px;
+}
+
+.active-file {
+    background-color: #505d4e;
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.file-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.file-data button {
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #868a85;
+    border: solid 0px;
+    padding: 8px;
+}
+
 /* Search Bar */
 .search-bar {
     width: 100%;
