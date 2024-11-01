@@ -94,11 +94,11 @@ body {
 
 /* Chat Content */
 .chat-content {
-    flex-grow: 1;  /* Biarkan ini untuk membuat chat content mengisi ruang vertikal */
+    flex-grow: 1;
     padding: 20px;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; /* Atur balon chat secara vertikal */
+    flex-direction: column;
 }
 
 .message {
@@ -108,15 +108,16 @@ body {
     border-radius: 5px;
     font-size: 16px;
     word-wrap: break-word;
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Warna balon chat pengirim (kiri) */
 .chat-other {
     background-color: #606560;
-    color: #ddd;
+    color: #fff;
     align-self: flex-start;
-    margin-right: auto; /* Agar pesan tidak melebar ke kanan */
+    margin-right: auto;
 }
 
 /* Warna balon chat penerima (kanan) */
@@ -124,8 +125,16 @@ body {
     background-color: #43803d;
     color: #fff;
     align-self: flex-end;
-    margin-left: auto; /* Agar pesan tidak melebar ke kiri */
+    margin-left: auto;
     text-align: right;
+}
+
+.messageFooter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 0.75em;
+    color: lightgrey;
 }
 
 /* Footer untuk input pesan */
