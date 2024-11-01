@@ -5,7 +5,8 @@ const port = 3001;
 
 app.use(cors());
 
-const data = [{
+const data = [
+{
     _data: {
         id: {
             fromMe: false,
@@ -106,7 +107,231 @@ const data = [{
         isGif: false,
         isEphemeral: undefined,
         links: []
-}];
+},
+{
+    _data: {
+        id: {
+        fromMe: true,
+        remote: '6283895262500@c.us',
+        id: '3EB00A4C66EA6B03BBAE06',
+        _serialized: 'true_6283895262500@c.us_3EB00A4C66EA6B03BBAE06'
+        },
+        viewed: false,
+        body: ' pagi',
+        type: 'chat',
+        t: 1729671640,
+        from: '6285174388804@c.us',
+        to: '6283895262500@c.us',
+        ack: 0,
+        isNewMsg: true,
+        star: false,
+        kicNotified: false,
+        isFromTemplate: false,
+        pollInvalidated: false,
+        isSentCagPollCreation: false,
+        latestEditMsgKey: null,
+        latestEditSenderTimestampMs: null,
+        mentionedJidList: [],
+        groupMentions: [],
+        isEventCanceled: false,
+        eventInvalidated: false,
+        isVcardOverMmsDocument: false,
+        isForwarded: false,
+        labels: [],
+        hasReaction: false,
+        disappearingModeInitiator: 'chat',
+        disappearingModeTrigger: 'chat_settings',
+        productHeaderImageRejected: false,
+        lastPlaybackProgress: 0,
+        isDynamicReplyButtonsMsg: false,
+        isCarouselCard: false,
+        parentMsgId: null,
+        isMdHistoryMsg: false,
+        stickerSentTs: 0,
+        isAvatar: false,
+        lastUpdateFromServerTs: 0,
+        invokedBotWid: null,
+        bizBotType: null,
+        botResponseTargetId: null,
+        botPluginType: null,
+        botPluginReferenceIndex: null,
+        botPluginSearchProvider: null,
+        botPluginSearchUrl: null,
+        botPluginSearchQuery: null,
+        botPluginMaybeParent: false,
+        botReelPluginThumbnailCdnUrl: null,
+        botMsgBodyType: null,
+        requiresDirectConnection: null,
+        bizContentPlaceholderType: null,
+        hostedBizEncStateMismatch: false,
+        senderOrRecipientAccountTypeHosted: false,
+        placeholderCreatedWhenAccountIsHosted: false,
+        links: []
+    },
+    mediaKey: undefined,
+    id: {
+        fromMe: true,
+        remote: '6283895262500@c.us',
+        id: '3EB00A4C66EA6B03BBAE06',
+        _serialized: 'true_6283895262500@c.us_3EB00A4C66EA6B03BBAE06'
+    },
+    ack: 0,
+    hasMedia: false,
+    body: ' pagi',
+    type: 'chat',
+    timestamp: 1729671640,
+    from: '6285174388804@c.us',
+    to: '6283895262500@c.us',
+    author: undefined,
+    deviceType: 'android',
+    isForwarded: false,
+    forwardingScore: 0,
+    isStatus: false,
+    isStarred: false,
+    broadcast: undefined,
+    fromMe: true,
+    hasQuotedMsg: false,
+    hasReaction: false,
+    duration: undefined,
+    location: undefined,
+    vCards: [],
+    inviteV4: undefined,
+    mentionedIds: [],
+    groupMentions: [],
+    orderId: undefined,
+    token: undefined,
+    isGif: false,
+    isEphemeral: undefined,
+    links: []
+},
+{
+    _data: {
+        id: {
+            fromMe: false,
+            remote: '6283895262500-1614926919@g.us',
+            id: '3F75533D5FB45B324869',
+            participant: '6283895262500@c.us',
+            _serialized: 'false_6283895262500-1614926919@g.us_3F75533D5FB45B324869_6283895262500@c.us'
+        },
+        viewed: false,
+        body: '<< pagi',
+        type: 'chat',
+        t: 1729671637,
+        notifyName: 'r',
+        from: '6283895262500-1614926919@g.us',
+        to: '6285174388804@c.us',
+        author: '6283895262500@c.us',
+        ack: 1,
+        invis: false,
+        isNewMsg: true,
+        star: false,
+        kicNotified: false,
+        recvFresh: true,
+        isFromTemplate: false,
+        thumbnail: '',
+        pollInvalidated: false,
+        isSentCagPollCreation: false,
+        latestEditMsgKey: null,
+        latestEditSenderTimestampMs: null,
+        quotedMsg: {
+            id: [Object],
+            rowId: 1000000074,
+            type: 'chat',
+            t: 1729671365,
+            from: '6285174388804@c.us',
+            to: '6283895262500-1614926919@g.us',
+            local: true,
+            ack: 2,
+            mentionedJidList: [],
+            ephemeralDuration: 86400,
+            messageRangeIndex: '6283895262500-1614926919@g.us_2_76718b0c4',
+            disappearingModeTrigger: 'chat_settings',
+            msgRowOpaqueData: {},
+            disappearingModeInitiator: 'chat',
+            rcat: null,
+            star: false,
+            isMdHistoryMsg: false,
+            body: '6283895262500 r >> selamat pagi',
+            pollOptions: [],
+            pollVotesSnapshot: [Object],
+            viewMode: 'VISIBLE'
+        },
+        quotedStanzaID: '3EB0D096E7A44C34E94DDF',
+        quotedParticipant: '6285174388804@c.us',
+        mentionedJidList: [],
+        groupMentions: [],
+        isEventCanceled: false,
+        eventInvalidated: false,
+        isVcardOverMmsDocument: false,
+        labels: [],
+        hasReaction: false,
+        ephemeralDuration: 86400,
+        viewMode: 'VISIBLE',
+        productHeaderImageRejected: false,
+        lastPlaybackProgress: 0,
+        isDynamicReplyButtonsMsg: false,
+        isCarouselCard: false,
+        parentMsgId: null,
+        isMdHistoryMsg: false,
+        stickerSentTs: 0,
+        isAvatar: false,
+        lastUpdateFromServerTs: 0,
+        invokedBotWid: null,
+        bizBotType: null,
+        botResponseTargetId: null,
+        botPluginType: null,
+        botPluginReferenceIndex: null,
+        botPluginSearchProvider: null,
+        botPluginSearchUrl: null,
+        botPluginSearchQuery: null,
+        botPluginMaybeParent: false,
+        botReelPluginThumbnailCdnUrl: null,
+        botMsgBodyType: null,
+        requiresDirectConnection: null,
+        bizContentPlaceholderType: null,
+        hostedBizEncStateMismatch: false,
+        senderOrRecipientAccountTypeHosted: false,
+        placeholderCreatedWhenAccountIsHosted: false,
+        links: []
+    },
+    mediaKey: undefined,
+    id: {
+        fromMe: false,
+        remote: '6283895262500-1614926919@g.us',
+        id: '3F75533D5FB45B324869',
+        participant: '6283895262500@c.us',
+        _serialized: 'false_6283895262500-1614926919@g.us_3F75533D5FB45B324869_6283895262500@c.us'
+    },
+    ack: 1,
+    hasMedia: false,
+    body: '<< pagi',
+    type: 'chat',
+    timestamp: 1729671637,
+    from: '6283895262500-1614926919@g.us',
+    to: '6285174388804@c.us',
+    author: '6283895262500@c.us',
+    deviceType: 'web',
+    isForwarded: undefined,
+    forwardingScore: 0,
+    isStatus: false,
+    isStarred: false,
+    broadcast: undefined,
+    fromMe: false,
+    hasQuotedMsg: true,
+    hasReaction: false,
+    duration: undefined,
+    location: undefined,
+    vCards: [],
+    inviteV4: undefined,
+    mentionedIds: [],
+    groupMentions: [],
+    orderId: undefined,
+    token: undefined,
+    isGif: false,
+    isEphemeral: undefined,
+    links: []
+}
+];
 
 app.get('/status', (req, res) => {
     res.json({
@@ -115,22 +340,21 @@ app.get('/status', (req, res) => {
     });
 });
 
-app.get('/users', (req, res) => {
+app.get('/chat', (req, res) => {
     // res.json(data.map((user) => user.name));
     res.json({
         data
     });
 });
 
-app.get('/users/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const response = data.find(d => d.id == id);
+app.get('/chat/:id', (req, res) => {
+    const id = req.params.id;
+    const response = data.find(d => d._data.id._serialized === id);
 
     if (!response) {
         res.status(404).json({
             error: "Gaada datanya wakk"
         });
-        console.error();
     } else {
         res.status(200).json({
             data: response
