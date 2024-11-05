@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #2e3b29;
     color: #fff;
 }
@@ -19,23 +19,12 @@ body {
 /* Sidebar */
 .sidebar {
     width: 25%;
-    background-color: #000000;
-    background-image: /*url("https://cdn.discordapp.com/attachments/731482170513948676/1303063726722650163/sidebardecor3.webp?ex=672a642a&is=672912aa&hm=8827e0e1d1198438235f56092b7be1b312c0a57e1d4ab79b2f24410d8bbc5af5&"),*/ linear-gradient(135deg, rgba(36,66,31,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%); 
-    border: 2px #24421f solid;
+    background-color: #2c2c2c;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: left;
-    /*background-image: url("https://cdn.discordapp.com/attachments/731482170513948676/1303059369688174714/sidebardecor.webp?ex=672a601b&is=67290e9b&hm=1a24644d7226874841b8dda28409541ef051d028701c357f00ddffc6a4aa0778&");*/
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.chats {
-    background-color: #4db23d26;
-    
-    border-left: 4px #4db23d solid;
-    padding: 8px;
+    border: 2px #1f1f1f solid;
 }
 
 /* Search Bar */
@@ -49,8 +38,8 @@ body {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
-    border: 2px #24421f solid;
-    background-color: #000000;
+    border: none;
+    background-color: #4c4c4c;
     color: #fff;
 }
 
@@ -65,18 +54,13 @@ body {
     align-items: center;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #4db23d26;
-    /*background: linear-gradient(0deg, rgba(40,89,32,1) 0%, rgba(26,48,23,1) 17%, rgba(0,0,0,1) 100%);*/
-    border-bottom: 4px #4db23d solid;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-radius: 5px 5px 0 0;
+    background-color: #262626;
+    border-radius: 5px;
 }
 
 .chat-item img {
     border-radius: 50%;
     margin-right: 10px;
-    /* placeholder image dipush keluar biar gk keliatan pake padding trus tambah background image*/
-    /*hasilnya sama aja dengan replace image*/ 
     width: 30px;
     height: 30px;
     padding-left: 30px;
@@ -88,7 +72,7 @@ body {
 .chat-details p {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #4db23dcc;
+    color: #fff;
 }
 
 .chat-details span {
@@ -98,29 +82,26 @@ body {
 /* Chat Window */
 .chat-window {
     width: 75%;
-    background-color: #000000;
-    background-image: url("https://cdn.discordapp.com/attachments/731482170513948676/1302954613930065951/waloggerbackground5.webp?ex=6729fe8b&is=6728ad0b&hm=b6171bd49b493ea5d7fa9574686adfc91f1297bf68765b73c61185af6e0dacba&");
-    background-repeat: no-repeat;
-    background-position: center;
-    /*background: linear-gradient(90deg, rgba(40,72,35,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 75%, rgba(40,72,35,1) 100%);*/
+    background-color: #212121;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Chat Header */
 .chat-header {
-    background: rgb(49,135,35);
-    background: radial-gradient(circle, rgba(5,28,13,1) 0%, rgba(0,0,0,1) 100%);
+    background-color: #2c2c2c;
     color: white;
     text-align: cleft;
     padding: 20px;
     font-size: 20px;
     font-weight: bold;
-    border-top: 2px #24421f solid;
+    border: 2px #1f1f1f solid;
+    border-left: 0px;
+    
 }
+
 /* Chat Content */
 .chat-content {
     flex-grow: 1;
@@ -143,21 +124,19 @@ body {
 
 /* Warna balon chat pengirim (kiri) */
 .chat-other {
-    background-color: #000000c0;
+    background-color: #606560;
     color: #fff;
     align-self: flex-start;
     margin-right: auto;
-    border: 1px #6f6f6f solid;
 }
 
 /* Warna balon chat penerima (kanan) */
 .chat-self {
-    background-color: #000000c0;
+    background-color: #43803d;
     color: #fff;
     align-self: flex-end;
     margin-left: auto;
     text-align: right;
-    border: 1px #4db23d solid;
 }
 
 .messageFooter {
@@ -172,9 +151,9 @@ body {
 .chat-footer {
     display: flex;
     padding: 10px;
-    background-color: #000000;
-    border: 2px #24421f solid;
-    border-left: 0;
+    background-color: #2c2c2c;
+    border: 2px #1f1f1f solid;
+    border-left: 0px;
 }
 
 .chat-footer input {
@@ -182,8 +161,7 @@ body {
     padding: 14px;
     border: none;
     border-radius: 20px;
-    background-color: #000000;
-
+    background-color: #212121;
     color: #ffffff;
     
 }
