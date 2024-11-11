@@ -88,43 +88,65 @@ fetch("http://localhost:3000/chat")
             groupedChats[cleanContact].messages.push(chatItem);
         });
 
-        // Loop untuk daftar chat di sidebar
-        Object.keys(groupedChats).forEach((contact, index) => {
-            const chatItem = groupedChats[contact];
+        // dijadikan function agar bisa dipanggil lagi
+        function loadContacts(searchData, loadFirstData) {
+            // clear chat items yang sudah diload sebelumnya
+            let allChatItems = document.getElementsByClassName("chat-list");
+            allChatItems[0].innerHTML = '';
+            // Loop untuk daftar chat di sidebar
+            Object.keys(groupedChats).forEach((contact, index) => {
+                const chatItem = groupedChats[contact];
+                // kalo loadContacts dipanggil tanpa argumen (searchData == undefined) maka tampilkan
+                // semua contacts. kalo searchData terisi string maka tampilkan contacts yang namanya
+                // terdapat bagian dari searchData
+                if (chatItem.notifyName.includes(searchData) || searchData == undefined) {
+                    
+                // Buat elemen untuk setiap item chat di sidebar
+                    const chatDiv = document.createElement("div");
+                    chatDiv.classList.add("chat-item");
 
-            // Buat elemen untuk setiap item chat di sidebar
-            const chatDiv = document.createElement("div");
-            chatDiv.classList.add("chat-item");
+                    const avatar = document.createElement("img");
+                    avatar.src = "https://via.placeholder.com/30";
+                    avatar.alt = "Chat Avatar";
 
-            const avatar = document.createElement("img");
-            avatar.src = "https://via.placeholder.com/30";
-            avatar.alt = "Chat Avatar";
+                    const chatDetails = document.createElement("div");
+                    chatDetails.classList.add("chat-details");
 
-            const chatDetails = document.createElement("div");
-            chatDetails.classList.add("chat-details");
+                    const chatName = document.createElement("p");
+                    chatName.textContent = chatItem.notifyName;
 
-            const chatName = document.createElement("p");
-            chatName.textContent = chatItem.notifyName;
+                    const lastMessage = document.createElement("span");
+                    lastMessage.textContent = chatItem.messages[chatItem.messages.length - 1].body;
 
-            const lastMessage = document.createElement("span");
-            lastMessage.textContent = chatItem.messages[chatItem.messages.length - 1].body;
+                    chatDetails.appendChild(chatName);
+                    chatDetails.appendChild(lastMessage);
+                    chatDiv.appendChild(avatar);
+                    chatDiv.appendChild(chatDetails);
+                    chatList.appendChild(chatDiv);
 
-            chatDetails.appendChild(chatName);
-            chatDetails.appendChild(lastMessage);
-            chatDiv.appendChild(avatar);
-            chatDiv.appendChild(chatDetails);
-            chatList.appendChild(chatDiv);
+                // Event Listener untuk menampilkan isi chat
+                    chatDiv.addEventListener("click", () => {
+                        loadChatMessages(chatItem.messages, chatItem.notifyName, chatItem.isGroup);
+                    });
 
-            // Event Listener untuk menampilkan isi chat
-            chatDiv.addEventListener("click", () => {
-                loadChatMessages(chatItem.messages, chatItem.notifyName, chatItem.isGroup);
+                // Tampilkan isi chat pertama secara default
+                    if (index === 0 && loadFirstData) {
+                        loadChatMessages(chatItem.messages, chatItem.notifyName, chatItem.isGroup);
+                    }
+                }
             });
+        }
 
-            // Tampilkan isi chat pertama secara default
-            if (index === 0) {
-                loadChatMessages(chatItem.messages, chatItem.notifyName, chatItem.isGroup);
+        loadContacts(undefined,true);
+        // dapetin searchbar
+        var searchbar = document.getElementsByClassName("search-bar")[0].children[0]; 
+        searchbar.addEventListener("input", () => {
+            if (searchbar.value == "") {
+                loadContacts();
+            } else {
+                loadContacts(searchbar.value);
             }
-        });
+        })
     })
     .catch((error) => console.error("Error:", error))
     .finally(() => {
