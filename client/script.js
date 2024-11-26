@@ -24,7 +24,7 @@ fetch("http://localhost:3000/chat")
                 chatItem.fromMe ? message.classList.add("chat-self") : message.classList.add("chat-other");
 
                 // Jika ini pesan grup, tampilkan pengirimnya
-                if (isGroup && chatItem.author) {
+                if (isGroup && !chatItem.fromMe && chatItem.author) {
                     const authorElement = document.createElement("p");
                     authorElement.classList.add("message-author");
                     authorElement.innerText = cleanId(chatItem.author); // Tampilkan nama pengirim tanpa @c.us
@@ -51,14 +51,28 @@ fetch("http://localhost:3000/chat")
                 timeElement.innerText = timeString;
                 messageFooter.appendChild(timeElement);
 
-                // Jika pesan dikirim oleh pengguna, tambahkan tanda centang read receipt
+                // Jika pesan dikirim oleh pengguna, tambahkan tanda centang atau ikon jam
                 if (chatItem.fromMe) {
                     const readReceipt = document.createElement("span");
                     readReceipt.classList.add("readReceipt");
-                    readReceipt.innerText = "✓✓"; // Tanda centang dua sebagai read receipt
-                    readReceipt.style.color = chatItem.ack === 2 ? "#34B7F1" : "lightgrey"; // Sesuaikan warna berdasarkan status pesan
-                    messageFooter.appendChild(readReceipt);
+
+                    // Tentukan kelas berdasarkan nilai ack
+                    if (chatItem.ack === 0) {
+                        readReceipt.classList.add("clock"); // Tambahkan kelas ikon jam
+                    } else if (chatItem.ack === 1) {
+                        readReceipt.innerText = "✓"; // Centang satu (sent)
+                        readReceipt.style.color = "lightgrey";
+                    } else if (chatItem.ack === 2) {
+                        readReceipt.innerText = "✓✓"; // Centang dua (delivered)
+                        readReceipt.style.color = "lightgrey";
+                    } else if (chatItem.ack === 3) {
+                        readReceipt.innerText = "✓✓"; // Centang dua (read)
+                        readReceipt.style.color = "#34B7F1";
+                    }
+
+                messageFooter.appendChild(readReceipt);
                 }
+
 
                 // Tambahkan teks dan footer ke pesan, kemudian tambahkan ke elemen chat
                 message.appendChild(messageText);
