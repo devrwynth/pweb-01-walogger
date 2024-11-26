@@ -35,6 +35,25 @@ fetch("http://localhost:3000/chat")
                 messageText.classList.add("messageText");
                 messageText.innerText = chatItem.body;
 
+                // Tambah reply box
+                let hasReply = chatItem.hasQuotedMsg; // ubah ini dengan data di jsonnya biar cuma ada kalo beneran reply
+                if (hasReply) {
+                    const replyBox = document.createElement("div");
+                    const replyBoxSource = document.createElement("p");
+                    replyBoxSource.innerText = cleanId(chatItem._data.quotedMsg.from);
+                    const replyBoxContent = document.createElement("p");
+                    // format reply message di json itu [(nomor) r >> (text message)]
+                    // jadi biar cuma keluar text message, harus di split setelah >>
+                    replyBoxContent.innerText = chatItem._data.quotedMsg.body.split(">> ")[1];
+
+                    replyBox.classList.add("reply-box");
+                    replyBoxSource.classList.add("reply-box-source");
+                    replyBoxContent.classList.add("reply-box-content");
+                    replyBox.appendChild(replyBoxSource);
+                    replyBox.appendChild(replyBoxContent);
+                    message.appendChild(replyBox);
+                }
+                
                 // Konversi timestamp ke format jam.menit
                 const date = new Date(chatItem.timestamp * 1000);
                 let hours = date.getUTCHours();
