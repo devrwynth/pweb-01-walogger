@@ -180,3 +180,36 @@ body {
     border-radius: 20px;
     cursor: pointer;
 }
+
+/* Ikon jam untuk pesan dengan ack = 0 */
+.readReceipt.clock {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid lightgrey;
+  border-radius: 50%;
+  position: relative;
+}
+
+.readReceipt.clock::before {
+  content: '';
+  width: 2px;
+  height: 6px;
+  background: lightgrey;
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%);
+}
+
+.readReceipt.clock::after {
+  content: '';
+  width: 4px;
+  height: 2px;
+  background: lightgrey;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  transform-origin: center;
+}
