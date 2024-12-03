@@ -2,14 +2,14 @@ const express = require('express');
 const cors = require("cors");
 const app = express();
 const port = 3000;
-
-app.use(cors());
-
-
 const { MongoClient, ServerApiVersion } = require('mongodb');
+
+// Middleware
+app.use(cors());
+app.use(express.json()); // Untuk menangani request body JSON
+
+// MongoDB Connection
 const uri = "mongodb+srv://admin:walogger@walogger.wice1.mongodb.net/?retryWrites=true&w=majority&appName=WALogger";
-var dataString = "";
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -18,58 +18,85 @@ const client = new MongoClient(uri, {
   }
 });
 
-var dbdata = [];
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // data disimpan pada database "messages" pada collection "jsons"
-    const db = client.db("messages");
-    const coll = db.collection("jsons");
-    const cursor = coll.find();
-    for await (const doc of cursor) {
-        var stringdata = doc.data;
-        dbdata.push(JSON.parse(stringdata));
-    }
-    //console.log(dbdata);
-    // isi data harusnya sama dengan yang ada di file index.js sebelum ini tipenya
-    const data = dbdata;
-    app.get('/status', (req, res) => {
-        res.json({
-            status: "Backend Jalan",
-            uptime: process.uptime()
-        });
-    });
-    
-    app.get('/chat', (req, res) => {
-        // res.json(data.map((user) => user.name));
-        res.json({
-            data
-        });
-    });
-    
-    app.get('/chat/:id', (req, res) => {
-        const id = req.params.id;
-        const response = data.find(d => d._data.id._serialized === id);
-    
-        if (!response) {
-            res.status(404).json({
-                error: "Gaada datanya wakk"
-            });
-        } else {
-            res.status(200).json({
-                data: response
-            });
-        }
-    });
-    
-    app.listen(port, () => {
-        console.log(`Backend PWEB pake express di http://localhost:${port}`);
-    });
-    
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+let dbdata = []; // Data yang akan digunakan di endpoint
+let coll; // Referensi ke koleksi database
+
+async function loadInitialData() {
+  const cursor = coll.find();
+  dbdata = []; // Bersihkan data lama sebelum memuat ulang
+  for await (const doc of cursor) {
+    const stringdata = doc.data;
+    dbdata.push(JSON.parse(stringdata));
   }
 }
+
+async function run() {
+  try {
+    await client.connect();
+    const db = client.db("messages");
+    coll = db.collection("jsons");
+
+    // Muat data awal
+    await loadInitialData();
+
+    // Endpoint Status
+    app.get('/status', (req, res) => {
+      res.json({
+        status: "Backend Jalan",
+        uptime: process.uptime(),
+      });
+    });
+
+    // Endpoint untuk mendapatkan semua chat
+    app.get('/chat', (req, res) => {
+      res.json({
+        data: dbdata,
+      });
+    });
+
+    // Endpoint untuk mendapatkan chat berdasarkan ID
+    app.get('/chat/:id', (req, res) => {
+      const id = req.params.id;
+      const response = dbdata.find(d => d._data.id._serialized === id);
+
+      if (!response) {
+        res.status(404).json({
+          error: "Data tidak ditemukan!",
+        });
+      } else {
+        res.status(200).json({
+          data: response,
+        });
+      }
+    });
+
+    // Endpoint untuk menambahkan pesan baru
+    app.post('/chat', async (req, res) => {
+      const newMessage = req.body;
+
+      if (!newMessage || !newMessage._data) {
+        return res.status(400).json({ error: "Pesan tidak valid!" });
+      }
+
+      try {
+        // Simpan pesan baru ke database
+        await coll.insertOne({ data: JSON.stringify(newMessage) });
+        // Tambahkan ke cache (dbdata) agar real-time
+        dbdata.push(newMessage);
+        res.status(201).json({ message: "Pesan berhasil disimpan!" });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Gagal menyimpan pesan!" });
+      }
+    });
+
+    // Jalankan server
+    app.listen(port, () => {
+      console.log(`Backend PWEB berjalan di http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("Gagal menjalankan server:", err);
+  }
+}
+
 run().catch(console.dir);
