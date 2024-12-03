@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageBody = messageInput.value.trim();
     if (!messageBody) return;  // Jangan kirim pesan kosong
 
-    const newMessage = createMessageData(chatHeader, messageBody, isCurrentChatGroup);
+    const newMessage = createMessageData(chatHeader.textContent, messageBody, isCurrentChatGroup);
 
     // Kirim pesan ke backend
     fetch('http://localhost:3000/chat', {
