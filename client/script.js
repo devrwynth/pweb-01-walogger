@@ -1,51 +1,48 @@
 fetch("http://localhost:3000/chat")
-    .then((response) => response.json())
+    .then((response) => response.json()) // Mengambil data JSON dari endpoint lokal
     .then((data) => {
-        const chatList = document.getElementById("chat-list");
-        const chat = document.getElementById("chat");
-        const chatHeader = document.querySelector('.chat-header p');
+        // Elemen-elemen utama pada halaman
+        const chatList = document.getElementById("chat-list"); // Sidebar daftar kontak
+        const chat = document.getElementById("chat"); // Jendela obrolan
+        const chatHeader = document.querySelector('.chat-header p'); // Header untuk nama kontak
 
         // Fungsi untuk membersihkan ID (menghapus @c.us, @g.us)
         const cleanId = (id) => id.replace(/@c.us|@g.us/g, '');
 
         // Fungsi untuk menampilkan isi chat
         const loadChatMessages = (messages, contactName, isGroup) => {
-            // Perbarui header dengan nama kontak
-            chatHeader.textContent = contactName;
+            chatHeader.textContent = contactName; // Perbarui nama kontak di header
+            chat.innerHTML = ''; // Kosongkan jendela obrolan
 
-            // Kosongkan jendela obrolan
-            chat.innerHTML = '';
+            let lastDate = null; // Variable untuk melacak tanggal terakhir yang ditampilkan
 
-            // Loop untuk menampilkan setiap pesan
             messages.forEach(chatItem => {
-                // Buat elemen pesan di jendela obrolan
+                // Membuat elemen pesan
                 const message = document.createElement("div");
                 message.classList.add("message");
                 chatItem.fromMe ? message.classList.add("chat-self") : message.classList.add("chat-other");
 
-                // Jika ini pesan grup, tampilkan pengirimnya
+                // Tampilkan nama pengirim untuk pesan grup
                 if (isGroup && !chatItem.fromMe && chatItem.author) {
                     const authorElement = document.createElement("p");
                     authorElement.classList.add("message-author");
-                    authorElement.innerText = cleanId(chatItem.author); // Tampilkan nama pengirim tanpa @c.us
+                    authorElement.innerText = cleanId(chatItem.author);
                     message.appendChild(authorElement);
                 }
 
+                // Konten pesan
                 const messageText = document.createElement("p");
                 messageText.classList.add("messageText");
                 messageText.innerText = chatItem.body;
 
-                // Tambah reply box
-                let hasReply = chatItem.hasQuotedMsg; // ubah ini dengan data di jsonnya biar cuma ada kalo beneran reply
+                // Menangani pesan balasan (reply)
+                let hasReply = chatItem.hasQuotedMsg;
                 if (hasReply) {
                     const replyBox = document.createElement("div");
                     const replyBoxSource = document.createElement("p");
-                    replyBoxSource.innerText = cleanId(chatItem._data.quotedMsg.from);
+                    replyBoxSource.innerText = cleanId(chatItem._data.quotedMsg.from); // Sumber pesan balasan
                     const replyBoxContent = document.createElement("p");
-                    // format reply message di json itu [(nomor) r >> (text message)]
-                    // jadi biar cuma keluar text message, harus di split setelah >>
-                    replyBoxContent.innerText = chatItem._data.quotedMsg.body.split(">> ")[1];
-
+                    replyBoxContent.innerText = chatItem._data.quotedMsg.body.split(">> ")[1]; // Isi pesan balasan
                     replyBox.classList.add("reply-box");
                     replyBoxSource.classList.add("reply-box-source");
                     replyBoxContent.classList.add("reply-box-content");
@@ -53,15 +50,33 @@ fetch("http://localhost:3000/chat")
                     replyBox.appendChild(replyBoxContent);
                     message.appendChild(replyBox);
                 }
-                
-                // Konversi timestamp ke format jam.menit
-                const date = new Date(chatItem.timestamp * 1000);
-                let hours = date.getUTCHours();
-                const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-                hours = String(hours).padStart(2, '0');
-                const timeString = `${hours}:${minutes}`;
 
-                // Buat footer untuk timestamp dan read receipt
+                // Konversi timestamp ke format waktu lokal (WIB)
+                const date = new Date(chatItem.timestamp * 1000);
+                const wibOffset = 7 * 60;
+                const utcHours = date.getUTCHours();
+                const utcMinutes = date.getUTCMinutes();
+                const localHours = (utcHours + 7) % 24;
+                const localMinutes = utcMinutes;
+                const year = date.getUTCFullYear().toString().slice(-2);
+                const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+                const day = String(date.getUTCDate()).padStart(2, '0');
+                const timeString = `${String(localHours).padStart(2, '0')}:${String(localMinutes).padStart(2, '0')}`;
+                const dateString = `${day}/${month}/${year}`;
+
+                // Menambahkan elemen header untuk tanggal baru
+                if (lastDate !== dateString) {
+                    lastDate = dateString;
+                    const dateContainer = document.createElement("div");
+                    dateContainer.classList.add("date-container");
+                    const dateHeader = document.createElement("div");
+                    dateHeader.classList.add("message-date-header");
+                    dateHeader.innerText = dateString;
+                    dateContainer.appendChild(dateHeader);
+                    chat.appendChild(dateContainer);
+                }
+
+                // Footer untuk timestamp dan read receipt
                 const messageFooter = document.createElement("div");
                 messageFooter.classList.add("messageFooter");
 
@@ -70,45 +85,40 @@ fetch("http://localhost:3000/chat")
                 timeElement.innerText = timeString;
                 messageFooter.appendChild(timeElement);
 
-                // Jika pesan dikirim oleh pengguna, tambahkan tanda centang atau ikon jam
+                // Tampilkan tanda centang jika pesan dari pengguna
                 if (chatItem.fromMe) {
                     const readReceipt = document.createElement("span");
                     readReceipt.classList.add("readReceipt");
-
-                    // Tentukan kelas berdasarkan nilai ack
                     if (chatItem.ack === 0) {
-                        readReceipt.classList.add("clock"); // Tambahkan kelas ikon jam
+                        readReceipt.classList.add("clock");
                     } else if (chatItem.ack === 1) {
-                        readReceipt.innerText = "✓"; // Centang satu (sent)
+                        readReceipt.innerText = "✓";
                         readReceipt.style.color = "lightgrey";
                     } else if (chatItem.ack === 2) {
-                        readReceipt.innerText = "✓✓"; // Centang dua (delivered)
+                        readReceipt.innerText = "✓✓";
                         readReceipt.style.color = "lightgrey";
                     } else if (chatItem.ack === 3) {
-                        readReceipt.innerText = "✓✓"; // Centang dua (read)
+                        readReceipt.innerText = "✓✓";
                         readReceipt.style.color = "#34B7F1";
                     }
-
-                messageFooter.appendChild(readReceipt);
+                    messageFooter.appendChild(readReceipt);
                 }
 
-
-                // Tambahkan teks dan footer ke pesan, kemudian tambahkan ke elemen chat
+                // Gabungkan semua elemen ke dalam pesan
                 message.appendChild(messageText);
                 message.appendChild(messageFooter);
                 chat.appendChild(message);
             });
         };
 
-        // Kosongkan daftar chat
+        // Kosongkan daftar chat di sidebar
         chatList.innerHTML = '';
+        const groupedChats = {}; // Objek untuk mengelompokkan pesan berdasarkan kontak
 
-        // Mengelompokkan pesan berdasarkan kontak
-        const groupedChats = {};
-
+        // Memproses data pesan menjadi grup kontak
         data.data.forEach(chatItem => {
             const contact = chatItem.fromMe ? chatItem.to : chatItem.from;
-            const cleanContact = cleanId(contact); // Bersihkan ID
+            const cleanContact = cleanId(contact);
             const isGroup = contact.includes('@g.us');
 
             if (!groupedChats[cleanContact]) {
@@ -121,48 +131,36 @@ fetch("http://localhost:3000/chat")
             groupedChats[cleanContact].messages.push(chatItem);
         });
 
-        // dijadikan function agar bisa dipanggil lagi
+        // Fungsi untuk memuat daftar kontak ke sidebar
         function loadContacts(searchData, loadFirstData) {
-            // clear chat items yang sudah diload sebelumnya
             let allChatItems = document.getElementsByClassName("chat-list");
             allChatItems[0].innerHTML = '';
-            // Loop untuk daftar chat di sidebar
             Object.keys(groupedChats).forEach((contact, index) => {
                 const chatItem = groupedChats[contact];
-                // kalo loadContacts dipanggil tanpa argumen (searchData == undefined) maka tampilkan
-                // semua contacts. kalo searchData terisi string maka tampilkan contacts yang namanya
-                // terdapat bagian dari searchData
                 if (chatItem.notifyName.includes(searchData) || searchData == undefined) {
-                    
-                // Buat elemen untuk setiap item chat di sidebar
                     const chatDiv = document.createElement("div");
                     chatDiv.classList.add("chat-item");
-
                     const avatar = document.createElement("img");
                     avatar.src = "https://via.placeholder.com/30";
                     avatar.alt = "Chat Avatar";
-
                     const chatDetails = document.createElement("div");
                     chatDetails.classList.add("chat-details");
-
                     const chatName = document.createElement("p");
                     chatName.textContent = chatItem.notifyName;
-
                     const lastMessage = document.createElement("span");
                     lastMessage.textContent = chatItem.messages[chatItem.messages.length - 1].body;
-
                     chatDetails.appendChild(chatName);
                     chatDetails.appendChild(lastMessage);
                     chatDiv.appendChild(avatar);
                     chatDiv.appendChild(chatDetails);
                     chatList.appendChild(chatDiv);
 
-                // Event Listener untuk menampilkan isi chat
+                    // Klik kontak untuk menampilkan chat
                     chatDiv.addEventListener("click", () => {
                         loadChatMessages(chatItem.messages, chatItem.notifyName, chatItem.isGroup);
                     });
 
-                // Tampilkan isi chat pertama secara default
+                    // Tampilkan chat pertama secara default
                     if (index === 0 && loadFirstData) {
                         loadChatMessages(chatItem.messages, chatItem.notifyName, chatItem.isGroup);
                     }
@@ -170,18 +168,20 @@ fetch("http://localhost:3000/chat")
             });
         }
 
-        loadContacts(undefined,true);
-        // dapetin searchbar
-        var searchbar = document.getElementsByClassName("search-bar")[0].children[0]; 
+        // Muat semua kontak secara default
+        loadContacts(undefined, true);
+
+        // Event listener untuk pencarian kontak
+        var searchbar = document.getElementsByClassName("search-bar")[0].children[0];
         searchbar.addEventListener("input", () => {
             if (searchbar.value == "") {
                 loadContacts();
             } else {
                 loadContacts(searchbar.value);
             }
-        })
+        });
     })
-    .catch((error) => console.error("Error:", error))
+    .catch((error) => console.error("Error:", error)) // Menangani kesalahan saat mengambil data
     .finally(() => {
-        console.log("Data loaded successfully");
+        console.log("Data loaded successfully"); // Log saat data berhasil dimuat
     });
