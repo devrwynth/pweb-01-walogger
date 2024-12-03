@@ -234,3 +234,21 @@ body {
   transform: translateX(-50%) rotate(45deg);
   transform-origin: center;
 }
+
+/* Container untuk tanggal */
+.date-container {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Gaya untuk header tanggal */
+.message-date-header {
+  background-color: #3b3b3b;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 15px;
+  color: white;
+  text-align: center;
+  max-width: 150px;
+}
