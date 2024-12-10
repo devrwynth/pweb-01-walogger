@@ -41,6 +41,16 @@ body {
     border: none;
     background-color: #4c4c4c;
     color: #fff;
+    transition: .1s ease-out;
+    box-shadow: 0 0 4px #ffffff00;
+    outline: .1rem #ffffff00 solid;
+}
+
+.search-bar input:focus {
+    background-color: #454545;
+    box-shadow: 0 0 4px #ffffffff;
+    transition: .1s ease-out;
+    outline: .1rem #ffffffff solid;
 }
 
 /* Chat List */
@@ -57,10 +67,14 @@ body {
     background-color: #262626;
     border-radius: 5px;
     cursor: default;
+    border: solid #ffffff00 .1rem;
+    transition: .15s ease-out;
 }
 
 .chat-item:hover {
     background-color: #1e1e1e;
+    border: solid #ffffffff .1rem;
+    transition: .15s ease-out;
 }
 
 .chat-item img {
@@ -166,6 +180,12 @@ body {
     font-size: 12px;
     margin: 4px 0 4px 0;
     cursor: default;
+    transition: .1s ease-out;
+}
+
+.reply-box:hover {
+    background-color: #000000a0;
+    transition: .1s ease-out;
 }
 
 .reply-box-source {
@@ -183,13 +203,28 @@ body {
 }
 
 .chat-footer input {
+    display:inline-block;
     flex-grow: 1;
     padding: 14px;
     border: none;
     border-radius: 20px;
     background-color: #212121;
     color: #ffffff;
-    
+    transition: .1s ease-out;
+    outline: .1rem #ffffff00 solid;
+    box-shadow: 0 0 4px #ffffff00;
+}
+
+.chat-footer input:hover {
+    transition: .1s ease-out;
+    color:#ffffff80;
+}
+
+.chat-footer input:focus {
+    background-color: #1e1e1e;
+    outline: .1rem #ffffffff solid;
+    box-shadow: 0 0 4px #ffffffff;
+    transition: .1s ease-out;
 }
 
 .chat-footer button {
@@ -200,6 +235,17 @@ body {
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    transition: .1s ease-out;
+}
+
+.chat-footer button:hover {
+    background-color: #0e675c;
+    transition: .1s ease-out;
+}
+
+.chat-footer button:active {
+    background-color: #00584c;
+    transition: .1s ease-out;
 }
 
 /* Ikon jam untuk pesan dengan ack = 0 */
