@@ -16,4 +16,3 @@ npm install multer-gridfs-storage
 npm install multer@1.4.4
 npm install sonner
 
-sleep 10
