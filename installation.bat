@@ -14,3 +14,5 @@ npm install gridfs-stream
 npm install multer-gridfs-storage
 npm install multer@1.4.4
 npm install sonner
+
+node server/index.js &
