@@ -1,4 +1,5 @@
-curl -fsSL https://fnm.vercel.app/install | bash
+bash fnm-install.sh
+source /vercel/.bashrc
 fnm env --use-on-cd | Out-String | Invoke-Expression
 fnm use --install-if-missing 22
 
