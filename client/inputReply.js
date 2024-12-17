@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeAuthorName = null;
 
     // Ambil data kontak dari API
-    fetch("https://tinyurl.com/pweb01walogger/contacts")
+    fetch("http://139.228.161.108:3002/contacts")
         .then((response) => response.json())
         .then((contactData) => {
             // Isi contactMap dengan data dari API
@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
             activeTextMessage
         );
     
-        fetch('https://tinyurl.com/pweb01walogger/chat', {
+        fetch('http://139.228.161.108:3002/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
