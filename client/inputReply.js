@@ -6,11 +6,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const replyBox = document.createElement("div");
     
     // Variabel global untuk chat saat ini
-    let currentContactId = null;  // ID kontak yang sedang aktif
+    let currentContactId = '6283895262500';  // ID kontak yang sedang aktif
     let isCurrentChatGroup = false;  
+    let contactMap = {}; // Peta kontak nomor ke nama
     let activeAuthorMessage = null;
     let activeTextMessage = null;
     let hasQuotedMessage = false;
+    let activeAuthorName = null;
+
+    // Ambil data kontak dari API
+    fetch("http://localhost:3000/contacts")
+        .then((response) => response.json())
+        .then((contactData) => {
+            // Isi contactMap dengan data dari API
+            contactData.data.forEach(contact => {
+                contactMap[contact.name] = contact.phone; // Nomor telepon sebagai value, nama sebagai key
+            });
+        })
+        .catch((error) => {
+            console.error("Gagal mengambil data kontak:", error);
+        });
 
     // Buat reply box
     replyBox.classList.add("reply-box");
@@ -38,22 +53,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fungsi untuk memperbarui detail kontak/chat
     const setChatDetails = (contactId, isGroup) => {
-        currentContactId = contactId;
-        isCurrentChatGroup = isGroup;
         chatHeader.textContent = contactId;  // Tampilkan nama kontak/chat aktif
+        isCurrentChatGroup = isGroup;
+        currentContactId = isCurrentChatGroup? `${contactMap[contactId]}@g.us`: `${contactMap[contactId]}@c.us`;
     };
 
     // Fungsi untuk memperbarui detail Quoted
     const setQuotedDetails = (author, message, isGroup) => {
-        activeAuthorMessage = author;
+        activeAuthorName = author;
+        activeAuthorMessage = isGroup? `${contactMap[author]}@g.us`: `${contactMap[author]}@c.us`;
         activeTextMessage = message;
         hasQuotedMessage = true;
-        isGroup = true;
+        isGroup = isGroup;
     };
 
     // Fungsi untuk menampilkan reply box
     const showReplyBox = () => {
-        replyElements.replyAuthor.textContent = activeAuthorMessage;
+        replyElements.replyAuthor.textContent = activeAuthorName;
         replyElements.replyMessage.textContent = activeTextMessage;
         replyBox.style.display = "flex";
     };
@@ -108,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fungsi untuk membuat data pesan
     function createMessageData(contactId, messageBody, isGroup, hasQuotedMessage, activeAuthorMessage, activeTextMessage) {
         const messageId = isGroup ? `CHTG${String(Date.now()).slice(-10)}` : `CHT${String(Date.now()).slice(-10)}`;
-    
+
         if (!isGroup) {
             return {
                 _data: {
@@ -407,5 +423,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    
 });
