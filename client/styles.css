@@ -408,3 +408,82 @@ body {
 .context-menu button:hover {
     background: #f0f0f0;
 }
+
+/* Styling untuk button tambah media */
+.addMedia {
+    background-color: #4CAF50; /* Hijau */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.addMedia:hover {
+    background-color: #45a049;
+}
+
+/* Styling untuk container media options */
+.media-options {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    bottom: 75px;
+    left: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.media-options button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 8px 16px;
+    margin: 5px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+}
+
+.media-options button:hover {
+    background-color: #ddd;
+}
+
+/* Styling untuk file preview (gambar/video) */
+.preview-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.file-preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.file-preview img, .file-preview video {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Styling untuk input pesan */
+.message-input {
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
