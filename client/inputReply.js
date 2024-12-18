@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeAuthorName = null;
 
     // Ambil data kontak dari API
-    fetch("https://pweb-01-walogger.vercel.app:3002/contacts")
+    fetch("https://pweb-01-walogger.vercel.app:3000/contacts")
         .then((response) => response.json())
         .then((contactData) => {
             // Isi contactMap dengan data dari API
@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
             activeTextMessage
         );
     
-        fetch('https://pweb-01-walogger.vercel.app:3002/chat', {
+        fetch('https://pweb-01-walogger.vercel.app:3000/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
