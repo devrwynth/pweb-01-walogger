@@ -1,7 +1,7 @@
 // Fetch data chat dan kontak secara bersamaan
 Promise.all([
-  fetch("https://pweb-01-walogger.vercel.app:3002/chat").then((response) => response.json()), // Chat data
-  fetch("https://pweb-01-walogger.vercel.app:3002/contacts").then((response) => response.json()) // Contacts data
+  fetch("https://pweb-01-walogger.vercel.app:3000/chat").then((response) => response.json()), // Chat data
+  fetch("https://pweb-01-walogger.vercel.app:3000/contacts").then((response) => response.json()) // Contacts data
 ])
   .then(([data, contactData]) => {
       // Elemen-elemen utama pada halaman
