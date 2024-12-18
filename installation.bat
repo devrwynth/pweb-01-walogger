@@ -1,5 +1,5 @@
 bash fnm-install.sh
-source /vercel/.bashrc
+source /root/.bashrc
 fnm env --use-on-cd | Out-String | Invoke-Expression
 fnm use --install-if-missing 22
 
@@ -12,7 +12,6 @@ npm install cors
 npm install mongodb
 npm install mongoose
 npm install gridfs-stream
-npm install multer-gridfs-storage
-npm install multer@1.4.4
-npm install sonner
+npm install multer
+
 
