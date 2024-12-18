@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require("cors");
 const { MongoClient, GridFSBucket } = require('mongodb');
 const multer = require("multer");
-const fs = require("fs");
-const upload = multer({ dest: 'uploads/' });  // Untuk menyimpan file sementara
+const { Readable } = require("stream");
+
 const app = express();
 const port = 3000;
 
@@ -20,27 +20,32 @@ const client = new MongoClient(uri, {
 let gfs;
 let db;
 let coll; // For collections
+let dbdata = []; // Cached data
 
 // Fungsi untuk mengambil nama dari phonebook
 async function getContactName(phoneNumber) {
     try {
         const contact = await client.db("messages").collection("phonebook").findOne({ phone: phoneNumber });
-        return contact ? contact.name : phoneNumber; // Jika tidak ada nama, tampilkan nomor telepon
+        return contact ? contact.name : phoneNumber;
     } catch (error) {
         console.error("Gagal mengambil nama kontak:", error);
-        return phoneNumber; // Jika error, tampilkan nomor telepon
+        return phoneNumber;
     }
 }
 
 // Fungsi untuk memuat data awal dari MongoDB
 async function loadInitialData() {
     const cursor = coll.find();
-    dbdata = []; // Bersihkan data lama sebelum memuat ulang
+    dbdata = [];
     for await (const doc of cursor) {
         const stringdata = doc.data;
-        dbdata.push(JSON.parse(stringdata)); // Parse data menjadi objek
+        dbdata.push(JSON.parse(stringdata));
     }
 }
+
+// Konfigurasi Multer
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 async function run() {
     try {
@@ -53,7 +58,7 @@ async function run() {
         await loadInitialData();
 
         const bucket = new GridFSBucket(db, {
-            bucketName: 'photos'  // Bucket name for storing images
+            bucketName: 'media'
         });
 
         // Set up GridFS for file storage
@@ -72,6 +77,21 @@ async function run() {
             });
         });
 
+        // Endpoint untuk mendapatkan semua kontak
+        app.get('/contact', async (req, res) => {
+            try {
+                const phonebookCursor = await client.db("messages").collection("phonebook").find();
+                const phonebook = await phonebookCursor.toArray();
+
+                res.json({
+                    data: phonebook,
+                });
+            } catch (error) {
+                console.error("Error fetching contacts:", error);
+                res.status(500).json({ error: "Failed to fetch contacts" });
+            }
+        });
+        
         // Endpoint untuk mendapatkan nama kontak berdasarkan nomor telepon
         app.get('/contact/:phoneNumber', async (req, res) => {
             const phoneNumber = req.params.phoneNumber;
@@ -83,21 +103,6 @@ async function run() {
                 });
             } catch (error) {
                 res.status(500).json({ error: "Gagal mengambil nama kontak." });
-            }
-        });
-
-        // Endpoint untuk mendapatkan semua kontak
-        app.get('/contacts', async (req, res) => {
-            try {
-                const phonebookCursor = await client.db("messages").collection("phonebook").find();
-                const phonebook = await phonebookCursor.toArray();
-
-                res.json({
-                    data: phonebook,
-                });
-            } catch (error) {
-                console.error("Error fetching contacts:", error);
-                res.status(500).json({ error: "Failed to fetch contacts" });
             }
         });
 
@@ -145,62 +150,77 @@ async function run() {
         });
 
         // ===================================
-        // File Upload and Download Routes
-        app.use("/file", upload.single('file'));  // For single file upload
-
-        // Upload file (Image, etc.)
-        app.post("/file", (req, res) => {
-            const file = req.file;
-            if (!file) {
-                return res.status(400).send("No file uploaded.");
+        app.post("/file/upload", upload.single("file"), async (req, res) => {
+            if (!req.file) {
+                return res.status(400).send("Anda harus memilih file untuk diunggah.");
             }
-
-            const uploadStream = gfs.openUploadStream(file.originalname);
-            const fileStream = fs.createReadStream(file.path);
-
-            fileStream.pipe(uploadStream);
-
-            uploadStream.on('finish', () => {
-                res.status(201).send({ message: "File uploaded successfully", filename: file.originalname });
-            });
-
-            uploadStream.on('error', (err) => {
-                res.status(500).send({ error: "Error uploading file", details: err });
-            });
-        });
-
-        // Download file (Image, etc.)
-        app.get("/file/:filename", (req, res) => {
-            const filename = req.params.filename;
-            const downloadStream = gfs.openDownloadStreamByName(filename);
-
-            downloadStream.on('data', (chunk) => {
-                res.write(chunk);
-            });
-
-            downloadStream.on('end', () => {
-                res.end();
-            });
-
-            downloadStream.on('error', () => {
-                res.status(404).send("File not found");
-            });
-        });
-
-        // Delete file from GridFS
-        app.delete('/file/:filename', async (req, res) => {
-            const filename = req.params.filename;
+        
             try {
-                const file = await gfs.find({ filename }).toArray();
-                if (file.length > 0) {
-                    await gfs.delete(file[0]._id);
-                    res.send("File deleted successfully");
-                } else {
-                    res.status(404).send("File not found");
+                const readableStream = new Readable();
+                readableStream.push(req.file.buffer);
+                readableStream.push(null); // End of stream
+        
+                // Buat nama file baru
+                const timestamp = Date.now();
+                const newFilename = `${timestamp}-${req.file.originalname}`;
+        
+                // Mulai upload file ke GridFS
+                const uploadStream = gfs.openUploadStream(newFilename, {
+                    contentType: req.file.mimetype,
+                });
+        
+                readableStream.pipe(uploadStream);
+        
+                uploadStream.on("finish", () => {
+                    res.status(201).json({
+                        message: "File berhasil diunggah!",
+                        filename: newFilename,
+                        contentType: req.file.mimetype,
+                        url: `http://localhost:3000/file/${newFilename}`
+                    });
+                });
+        
+                uploadStream.on("error", (error) => {
+                    console.error("Upload error:", error);
+                    res.status(500).json({ error: "Gagal upload file!" });
+                });
+            } catch (error) {
+                console.error("Upload error:", error);
+                res.status(500).json({ error: "Gagal upload file!" });
+            }
+        });        
+
+        // Endpoint untuk mendapatkan list file
+        app.get("/file", async (req, res) => {
+            try {
+                const files = await db.collection("media.files").find({}).toArray();
+                if (!files.length) {
+                    return res.status(404).json({ status: "error", message: "No files found" });
                 }
+                res.json({ 
+                    status: "success",
+                    data: files 
+                });
+            } catch (error) {
+                console.error("Failed to fetch files:", error);
+                res.status(500).json({ status: "error", message: "Failed to fetch files" });
+            }
+        });
+
+        // Endpoint untuk mendapatkan file (Download)
+        app.get("/file/:filename", async (req, res) => {
+            try {
+                const downloadStream = gfs.openDownloadStreamByName(req.params.filename);
+
+                downloadStream.on("data", (chunk) => res.write(chunk));
+                downloadStream.on("end", () => res.end());
+                downloadStream.on("error", (err) => {
+                    console.error(err);
+                    res.status(404).send("File not found.");
+                });
             } catch (error) {
                 console.error(error);
-                res.status(500).send("An error occurred.");
+                res.status(500).send("An error occurred while retrieving the file.");
             }
         });
 
