@@ -42,31 +42,37 @@
 
             <!-- Bagian untuk input pesan -->
             <div class="chat-footer">
-                <!-- Tombol untuk membuka container media -->
-                <button class="addMedia">+</button>
-                
                 <!-- Placeholder untuk preview media -->
                 <div class="media-placeholder" style="display: none;">
-                    <img id="mediaPreview" src="" alt="Media Placeholder">
+                    <img id="mediaPreview" src="./placeholder.png" alt="Media Placeholder">
                     <span class="remove-media">&times;</span>
                 </div>
             
                 <!-- Container dengan tombol upload -->
                 <div class="media-container" style="display: none;">
-                    <button class="upload-image">Upload Gambar</button>
-                    <button class="upload-video">Upload Video</button>
+                    <button class="upload-image" onclick="triggerImageUpload()">Upload Gambar</button>
+                    <button class="upload-video" onclick="triggerVideoUpload()">Upload Video</button>
                 </div>
-            
+
+                <!-- Form untuk upload file -->
+                <form id="file-upload-form" action="/upload" method="POST" enctype="multipart/form-data" style="display: none;">
+                    <input type="file" id="file-input" name="file" accept="image/png, image/jpeg, video/mp4, video/mkv" onchange="previewMedia(event)">
+                    <button type="submit">Upload</button>
+                </form>
+
                 <!-- Input Pesan -->
-                <input type="text" class="message-input" placeholder="Type a message">
-                <button class="send">Send</button>
+                <div class="iniInput">
+                    <button class="addMedia" onclick="toggleMediaOptions()">+</button>
+                    <input type="text" class="message-input" placeholder="Type a message">
+                    <button class="send">Send</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="./script.js"></script>
-    <script src="./inputReply.js"></script>
-    <script src="./inputMedia.js"></script>
+    <script src="./input.js"></script>
     <script src="./openMedia.js"></script>
+    <script src="./uploadMedia.js"></script>
 </body>
 </html>

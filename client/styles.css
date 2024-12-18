@@ -64,6 +64,7 @@ body {
 .chat-item {
     display: flex;
     align-items: center;
+    height: 85px;
     padding: 10px;
     margin-bottom: 10px;
     background-color: #262626;
@@ -173,11 +174,11 @@ body {
 }
 
 .reply-box {
-    position: relative; /* Parent positioning untuk close button */
+    position: relative;
     padding: 8px;
-    background-color: #00000080; /* Semi-transparent black */
+    background-color: #00000080;
     border-radius: 5px;
-    border-left: 4px solid #ffffff; /* White left border */
+    border-left: 4px solid #ffffff;
     font-size: 12px;
     margin: 4px 0;
     cursor: default;
@@ -185,31 +186,31 @@ body {
 }
 
 .reply-box:hover {
-    background-color: #000000a0; /* Slightly darker on hover */
+    background-color: #000000a0;
     transition: .1s ease-out;
 }
 
 .reply-author {
     font-size: 15px;
-    display: block; /* Pastikan tampil di baris baru */
-    color: #606560; /* Light grey for source text */
+    display: block;
+    color: #606560;
     font-weight: bold;
-    margin-bottom: 15px; /* Berikan jarak bawah */
+    margin-bottom: 15px;
 }
 
 .reply-message {
     font-size: 15px;
-    display: block; /* Tampil di baris baru */
-    color: #ffffff; /* White text for the replied message */
-    margin-top: 20px; /* Atur jarak atas */
+    display: block;
+    color: #ffffff;
+    margin-top: 20px;
     text-align: left;
-    white-space: pre-line; /* Pastikan new line dari teks terlihat */
+    white-space: pre-line;
 }
 
 .close-reply {
-    position: absolute; /* Posisikan close button secara absolut */
-    top: 4px; /* Beri jarak dari atas */
-    right: 8px; /* Beri jarak dari kanan */
+    position: absolute;
+    top: 4px;
+    right: 8px;
     color: lightgray;
     font-size: 16px;
     cursor: pointer;
@@ -218,75 +219,6 @@ body {
 
 .close-reply:hover {
     color: #ffffff;
-}
-
-/* Footer untuk input pesan */
-.chat-footer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #3b3b3b;
-    border: 2px #1f1f1f solid;
-    border-left: 0px;
-}
-
-.chat-footer input {
-    display: inline-block;
-    flex-grow: 1;
-    padding: 15px 20px 15px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: #212121;
-    color: #ffffff;
-    transition: .1s ease-out;
-    outline: .1rem #ffffff00 solid;
-    box-shadow: 0 0 4px #ffffff00;
-}
-
-.chat-footer input:hover {
-    transition: .1s ease-out;
-    color: #ffffff80;
-}
-
-.chat-footer input:focus {
-    background-color: #1e1e1e;
-    outline: .1rem #ffffffff solid;
-    box-shadow: 0 0 4px #ffffffff;
-    transition: .1s ease-out;
-}
-
-.chat-footer .addMedia {
-    font-size: 25px;
-    margin-right: 5px;
-    padding: 15px 20px 15px 20px;
-    background-color: #3b3b3b;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: .1s ease-out;
-}
-
-.chat-footer .send {
-    margin-left: 10px;
-    padding: 15px 20px 15px 20px;
-    background-color: #075e54;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: .1s ease-out;
-}
-
-.chat-footer .send:hover {
-    background-color: #0e675c;
-    transition: .1s ease-out;
-}
-
-.chat-footer .send:active {
-    background-color: #00584c;
-    transition: .1s ease-out;
 }
 
 /* Ikon jam untuk pesan dengan ack = 0 */
@@ -342,14 +274,26 @@ body {
 
 /* Mengatur gambar media dengan padding dan margin */
 .media-thumbnail {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    max-width: 400px;
+    height: 250px;
     margin: 10px 0;
-    padding: 5px;
+    padding: 0;
     border-radius: 8px;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
+
+.media-thumbnail img,
+.media-thumbnail video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
 
 /* Gaya untuk modal */
 .modal {
@@ -410,23 +354,137 @@ body {
     background: #f0f0f0;
 }
 
-/* Styling untuk button tambah media */
-.addMedia {
-    background-color: #4CAF50; /* Hijau */
-    color: white;
-    padding: 10px 20px;
+/* Footer untuk input pesan */
+.chat-footer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: #3b3b3b;
+    border: 2px #1f1f1f solid;
+    border-left: 0px;
+}
+
+/* Container untuk input pesan dan tombol send */
+.chat-footer .iniInput {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* Input Pesan */
+.chat-footer input {
+    display: inline-block;
+    flex-grow: 1;
+    padding: 15px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
+    background-color: #212121;
+    color: #ffffff;
+    transition: .1s ease-out;
+    outline: .1rem #ffffff00 solid;
+    box-shadow: 0 0 4px #ffffff00;
+}
+
+/* Hover and focus effects for input */
+.chat-footer input:hover {
+    color: #ffffff80;
+}
+
+.chat-footer input:focus {
+    background-color: #1e1e1e;
+    outline: .1rem #ffffffff solid;
+    box-shadow: 0 0 4px #ffffffff;
+    transition: .1s ease-out;
+}
+
+/* Tombol untuk tambah media */
+.chat-footer .addMedia {
+    font-size: 25px;
+    margin-right: 5px;
+    padding: 15px 20px;
+    background-color: #3b3b3b;
+    color: white;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 14px;
+    transition: .1s ease-out;
 }
 
 .addMedia:hover {
-    background-color: #45a049;
+    background-color: #0e675c;
+}
+
+/* Tombol untuk send */
+.chat-footer .send {
+    margin-left: 10px;
+    padding: 15px 20px;
+    background-color: #075e54;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: .1s ease-out;
+}
+
+.chat-footer .send:hover {
+    background-color: #0e675c;
+}
+
+.chat-footer .send:active {
+    background-color: #00584c;
+}
+
+/* Container untuk preview media (gambar/video) */
+.media-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    background-color: #3b3b3b;
+}
+
+/* Gambar dalam container */
+.media-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* Styling for remove-media button inside media-placeholder */
+.media-placeholder .remove-media {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.media-placeholder .remove-media:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background on hover */
+}
+
+/* Optional: Add focus effect for better accessibility */
+.media-placeholder .remove-media:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
 }
 
 /* Styling untuk container media options */
-.media-options {
+.media-container {
     display: none;
     flex-direction: column;
     position: absolute;
@@ -439,7 +497,7 @@ body {
     padding: 10px;
 }
 
-.media-options button {
+.media-container button {
     background-color: #f1f1f1;
     border: none;
     padding: 8px 16px;
@@ -450,41 +508,6 @@ body {
     font-size: 14px;
 }
 
-.media-options button:hover {
+.media-container button:hover {
     background-color: #ddd;
-}
-
-/* Styling untuk file preview (gambar/video) */
-.preview-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.file-preview {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-}
-
-.file-preview img, .file-preview video {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-/* Styling untuk input pesan */
-.message-input {
-    width: 100%;
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
 }
