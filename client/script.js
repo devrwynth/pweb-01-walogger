@@ -24,6 +24,7 @@ Promise.all([
             chat.innerHTML = ''; // Kosongkan jendela obrolan
 
             let lastDate = null; // Variable untuk melacak tanggal terakhir yang ditampilkan
+            messages.sort((a, b) => a.timestamp - b.timestamp); // Urutkan pesan berdasarkan timestamp
 
             messages.forEach(chatItem => {
                 // Membuat elemen pesan
