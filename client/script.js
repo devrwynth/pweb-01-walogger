@@ -8,7 +8,7 @@ Promise.all([
         const chatList = document.getElementById("chat-list"); // Sidebar daftar kontak
         const chat = document.getElementById("chat"); // Jendela obrolan
         const chatHeader = document.querySelector('.chat-header p'); // Header untuk nama kontak
-
+        
         // Peta kontak (map) nomor telepon ke nama kontak
         const contactMap = {};
         contactData.data.forEach(contact => {
@@ -24,6 +24,7 @@ Promise.all([
             chat.innerHTML = ''; // Kosongkan jendela obrolan
 
             let lastDate = null; // Variable untuk melacak tanggal terakhir yang ditampilkan
+            messages.sort((a, b) => a.timestamp - b.timestamp); // Urutkan pesan berdasarkan timestamp
 
             messages.forEach(chatItem => {
                 // Membuat elemen pesan
@@ -31,11 +32,12 @@ Promise.all([
                 message.classList.add("message");
                 chatItem.fromMe ? message.classList.add("chat-self") : message.classList.add("chat-other");
 
+                
                 // Tampilkan nama pengirim untuk pesan grup
                 if (isGroup && !chatItem.fromMe && chatItem.author) {
                     const authorElement = document.createElement("p");
                     authorElement.classList.add("message-author");
-                    authorElement.innerText = contactMap[cleanId(chatItem.author)];
+                    authorElement.innerText = contactMap[cleanId(chatItem.author)]? contactMap[cleanId(chatItem.author)] : cleanId(chatItem.author)
                     message.appendChild(authorElement);
                 }
 
@@ -49,7 +51,7 @@ Promise.all([
                 if (hasReply) {
                     const replyBox = document.createElement("div");
                     const replyBoxSource = document.createElement("p");
-                    replyBoxSource.innerText = contactMap[cleanId(chatItem._data.quotedMsg.from)]; // Sumber pesan balasan
+                    replyBoxSource.innerText = contactMap[cleanId(chatItem._data.quotedMsg.from)]? contactMap[cleanId(chatItem._data.quotedMsg.from)] : cleanId(chatItem._data.quotedMsg.from); // Sumber pesan balasan
                     const replyBoxContent = document.createElement("p");
                     replyBoxContent.innerText = chatItem._data.quotedMsg.body.split(">> ")[1]; // Isi pesan balasan
                     replyBox.classList.add("reply-box");
@@ -80,7 +82,7 @@ Promise.all([
 
                 // Konversi timestamp ke format waktu lokal (WIB)
                 const date = new Date(chatItem.timestamp * 1000);
-                const localHours = (date.getUTCHours() + 7) % 24;
+                const localHours = (date.getUTCHours()) % 24;
                 const localMinutes = date.getUTCMinutes();
                 const year = date.getUTCFullYear().toString().slice(-2);
                 const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -128,14 +130,12 @@ Promise.all([
                     const readReceipt = document.createElement("span");
                     readReceipt.classList.add("readReceipt");
                     if (chatItem.ack === 0) {
-                        readReceipt.classList.add("clock");
-                    } else if (chatItem.ack === 1) {
                         readReceipt.innerText = "✓";
                         readReceipt.style.color = "lightgrey";
-                    } else if (chatItem.ack === 2) {
+                    } else if (chatItem.ack === 1) {
                         readReceipt.innerText = "✓✓";
                         readReceipt.style.color = "lightgrey";
-                    } else if (chatItem.ack === 3) {
+                    } else if (chatItem.ack === 2) {
                         readReceipt.innerText = "✓✓";
                         readReceipt.style.color = "#34B7F1";
                     }
@@ -156,7 +156,7 @@ Promise.all([
         // Memproses data pesan menjadi grup kontak
         data.data.forEach(chatItem => {
             const contact = chatItem.fromMe ? chatItem.to : chatItem.from;
-            const cleanContact = contactMap[cleanId(contact)];
+            const cleanContact = contactMap[cleanId(contact)]? contactMap[cleanId(contact)] : cleanId(contact);
             const isGroup = contact.includes('@g.us');
 
             if (!groupedChats[cleanContact]) {
@@ -188,7 +188,16 @@ Promise.all([
                     const chatName = document.createElement("p");
                     chatName.textContent = chatItem.notifyName;
                     const lastMessage = document.createElement("span");
-                    lastMessage.textContent = chatItem.messages[chatItem.messages.length - 1].body;
+                    // Jumlah maksimal huruf yang ditampilkan
+                    const maxChars = 40;
+                    // Ambil pesan terakhir
+                    const lastMessageText = chatItem.messages[chatItem.messages.length - 1].body;
+                    // Potong teks jika melebihi batas maksimal
+                    const truncatedText = lastMessageText.length > maxChars 
+                        ? lastMessageText.substring(0, maxChars) + '...' 
+                        : lastMessageText;
+                    // Tampilkan teks yang sudah dibatasi
+                    lastMessage.textContent = truncatedText;
                     chatDetails.appendChild(chatName);
                     chatDetails.appendChild(lastMessage);
                     chatDiv.appendChild(avatar);
